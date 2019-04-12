@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 import './App.css';
+import Jokes from './components/Jokes/Jokes';
+import Login from './components/Login/Login';
 
 class App extends Component {
+
+  logout = () => {
+    localStorage.removeItem('jwt');
+    this.props.history.push('/login');
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+      <div className='App'>
+        <header>
+          <NavLink to="/login">Login</NavLink>
+          &nbsp;|&nbsp;
+          <NavLink to="/jokes">Jokes</NavLink>
+        
+            <button onClick={this.logout}>Logout</button> 
         </header>
+        <Route path='/login' component={Login}/>
+        <Route path='/jokes' component={Jokes}/>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
